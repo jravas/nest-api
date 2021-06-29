@@ -1,17 +1,20 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { CreateItemDto } from './dto'
+import { Item } from './interfaces'
 import { ItemsService } from './items.service'
-
+@ApiTags('items')
 @Controller('items')
 export class ItemsController {
   constructor (private readonly itemsService: ItemsService) {}
+
   @Get()
-  findAll () {
+  findAll (): Promise<Item[]> {
     return this.itemsService.findAll()
   }
 
   @Get(':id')
-  findOne (@Param('id') id) {
+  findOne (@Param('id') id): Promise<Item> {
     return this.itemsService.findOne(id)
   }
 
